@@ -16,8 +16,8 @@ token-bucket = "*"
 pywin32 = {version = "*",sys_platform = "== 'win32'"}
 etaprogress = {version = "*",sys_platform = "== 'win32'"}
 dmgbuild = {version = "*",sys_platform = "== 'darwin'"}
-pyinstaller = {version = "*",sys_platform = "!= 'win32'"}
+pyinstaller = "*"
 pyqtwebengine = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.10"

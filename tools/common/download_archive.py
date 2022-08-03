@@ -110,7 +110,7 @@ def main():
         sys.stdout.flush()
 
         # For undefined downloads (no content-length), check if thread has stopped. Loop only checks defined downloads.
-        if not thread.isAlive():
+        if not thread.is_alive():
             progress_bar.force_done = True
             break
         if progress_bar.done:

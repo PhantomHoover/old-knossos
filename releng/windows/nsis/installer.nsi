@@ -51,11 +51,6 @@ Var StartMenuFolder
 
 !insertmacro MUI_LANGUAGE "English"
 
-LangString DESC_desk_icon ${LANG_ENGLISH} "Creates a shortcut icon on your desktop."
-LangString DESC_fso_support ${LANG_ENGLISH} "Allows you to open fso:// links with Knossos."
-LangString DESC_un_kn_settings ${LANG_ENGLISH} "Removes your Knossos settings, but not the Knossos library."
-LangString DESC_un_fso_settings ${LANG_ENGLISH} "Removes your pilots, game saves, and game configuration, but not the Knossos library."
-
 Section
     SetOutPath "$INSTDIR"
     WriteRegStr HKLM "Software\Knossos" "Install Dir" "$INSTDIR"
@@ -133,16 +128,3 @@ Section /o "un.Remove Game Settings and Saves" un_fso_settings
     RMDir /r "$APPDATA\HardLightProductions"
     SetShellVarContext all
 SectionEnd
-
-!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${desk_icon} $(DESC_desk_icon)
-    !insertmacro MUI_DESCRIPTION_TEXT ${fso_support} $(DESC_fso_support)
-!insertmacro MUI_FUNCTION_DESCRIPTION_END
-
-!insertmacro MUI_UNFUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${un_kn_settings} $(DESC_un_kn_settings)
-!insertmacro MUI_UNFUNCTION_DESCRIPTION_END
-
-!insertmacro MUI_UNFUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${un_fso_settings} $(DESC_un_fso_settings)
-!insertmacro MUI_UNFUNCTION_DESCRIPTION_END
