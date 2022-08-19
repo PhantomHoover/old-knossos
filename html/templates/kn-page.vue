@@ -612,7 +612,7 @@ export default {
                         <div class="form-group">
                             <label class="col-xs-3 control-label">Version</label>
                             <div class="col-xs-9">
-                                <input type="text" class="form-control" v-model="popup_mod_version" pattern="^([0-9]+\.){0-2}[0-9]+(\-.*)?$">
+                                <input type="text" class="form-control" v-model="popup_mod_version" pattern="^([0-9]+\.){0,2}[0-9]+(-.*)?$">
 
                                 <span class="help-block">
                                     TODO: Version explanation. The versioning scheme is still pending. See the forum thread for details.
