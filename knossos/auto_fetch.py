@@ -22,7 +22,7 @@ from knossos import center, tasks, qt
 
 
 class AutoFetcher(Thread):
-    _interval = 60 * 60  # = 1 hour
+    _interval = 24 * 60 * 60  # = 1 hour
     _inactive_block = None
 
     def __init__(self):
