@@ -43,9 +43,10 @@ BUILD_WEIGHTS = {
 class ModNotFound(Exception):
     mid = None
     spec = None
-
+    message = None
     def __init__(self, message, mid, spec=None):
         super(ModNotFound, self).__init__(message)
+        self.message = message
 
         self.mid = mid
         self.spec = spec
@@ -336,7 +337,11 @@ class Repo(object):
                 deps = pkg.resolve_deps()
 
                 if DEBUG_DEPS:
-                    logging.debug('%s -> %s', pkg, ['%s %s' % (pkg, str(spec)) for pkg, spec in deps])
+                    if len(deps)>0:
+                        logging.debug('%s ', pkg)
+                        for innerpkg, spec in deps:
+                            if str(spec)!='*':
+                              logging.debug('         %s -> %s', innerpkg, str(spec))
 
                 for dep, spec in deps:
                     dd = dep_dict.setdefault(dep.get_mod().mid, {})
@@ -344,12 +349,17 @@ class Repo(object):
                         dd[spec] = {
                             'mod': dep.get_mod(),
                             'owner': pkg.get_mod(),
+                            'pack': pkg.name,
+                            'dep': dep,
+                            'spec': spec,
                             'pkgs': {}
                         }
+                    #else:
+                      #  dd[spec]['pkgs'][pkg.name] = pkg
 
-                    dd = dd[spec]['pkgs']
-                    if dep.name not in dd:
-                        dd[dep.name] = dep
+                    deppacks = dd[spec]['pkgs']
+                    if dep.name not in deppacks:
+                        deppacks[dep.name] = dep
                         if recursive:
                             ndeps.append(dep)
 
@@ -379,10 +389,10 @@ class Repo(object):
                         remains.append(v)
 
                 if len(remains) == 0:
-                    const = ','.join(['%s (%s)' % (s, m['owner'].title) for s, m in variants.items()])
-                    mod_titles = list(variants.values())[0]['mod'].title
-                    raise PackageConstraintNotMet('No version of mod "%s" found for these constraints: %s'
-                        % (mod_titles, const), mid, mod_titles, const)
+                    const = '\n'.join(['Package "%s" in %s (v%s) requires v%s of "%s" in %s' % (m['pack'],m['owner'].title,m['owner'].version,s,m['dep'].name, m['dep'].get_mod().title) for s, m in variants.items()])
+                    mod_titles = list(variants.values())[0]['mod'].title 
+                    raise PackageConstraintNotMet('No version found for these constraints: \n%s'
+                        % (const), mid, mod_titles, const)
                 else:
                     if remains[0]['mod'].mtype == 'engine':
                         # Multiple versions qualify and this is an engine so we have to check the stability next
