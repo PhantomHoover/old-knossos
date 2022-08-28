@@ -389,7 +389,7 @@ class Repo(object):
                         remains.append(v)
 
                 if len(remains) == 0:
-                    const = '\n'.join(['Package "%s" in %s (v%s) requires v%s of "%s" in %s' % (m['pack'],m['owner'].title,m['owner'].version,s,m['dep'].name, m['dep'].get_mod().title) for s, m in variants.items()])
+                    const = '\n'.join(['Package "%s" in %s (%s) requires version %s of "%s" in %s' % (m['pack'],m['owner'].title,m['owner'].version,s,m['dep'].name, m['dep'].get_mod().title) for s, m in variants.items()])
                     mod_titles = list(variants.values())[0]['mod'].title 
                     raise PackageConstraintNotMet('No version found for these constraints: \n%s'
                         % (const), mid, mod_titles, const)
