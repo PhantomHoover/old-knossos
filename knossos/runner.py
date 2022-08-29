@@ -447,7 +447,9 @@ def run_mod(mod, tool=None, exe_label=None):
         mod_flag, mod_choice = mod.get_mod_flag()
     except repo.ModNotFound as exc:
         mod_name = exc.mid
-        if exc.spec:
+        if exc.message:
+            details = exc.message
+        elif exc.spec:
             details = ' (%s)' % exc.spec
         else:
             details = ''
@@ -460,10 +462,10 @@ def run_mod(mod, tool=None, exe_label=None):
         if err_mod:
             if isinstance(exc, repo.PackageConstraintNotMet):
                 QtWidgets.QMessageBox.critical(None, 'Knossos',
-                    translate('runner', '"%s" (%s) requires "%s" which has conflicting requirements: %s' % (mod.title, mod.version, err_mod, exc.spec)))
+                    translate('runner', '"%s" (%s) requires "%s" which has conflicting requirements: %s' % (mod.title, mod.version, err_mod, exc.message)))
             else:
                 QtWidgets.QMessageBox.critical(None, 'Knossos',
-                    translate('runner', '"%s" (%s) requires "%s" which is missing! %s' % (mod.title, mod.version, err_mod, details)))
+                    translate('runner', '"%s" (%s) launch error with %s\n%s' % (mod.title, mod.version, err_mod, details)))
         else:
             QtWidgets.QMessageBox.critical(None, 'Knossos',
                 translate('runner', '"%s" has an error in its dependencies. Aborted.' % mod))

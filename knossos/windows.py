@@ -679,8 +679,8 @@ class ModInstallWindow(Window):
             all_pkgs = center.mods.process_pkg_selection(pkgs)
         except repo.ModNotFound as exc:
             logging.exception('Well, I won\'t be installing that...')
-            msg = self.tr('I\'m sorry but you won\'t be able to install "%s" because "%s" is missing!') % (
-                self._mod.title, exc.mid)
+            msg = self.tr('I\'m sorry but you won\'t be able to install "%s"\n%s') % (
+                    self._mod.title, exc.message)
             QtWidgets.QMessageBox.critical(None, 'Knossos', msg)
 
             self.close()
